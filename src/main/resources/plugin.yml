@@ -1,0 +1,10 @@
+name: Multiples
+version: ${project.version}
+main: me.multiplesdev.multiples.Multiples
+api-version: 1.16
+authors: [ aVinixs, Spiderlogical, Ben87 ]
+description: Main plugin for multiples
+
+commands:
+  Multiples:
+    description: Main command for the plugin
