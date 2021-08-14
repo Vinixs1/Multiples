@@ -15,23 +15,29 @@ public class Commands implements CommandExecutor {
     static Multiples plugin;
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
-        if (label.equalsIgnoreCase("multiples")) {
-            if (!(sender.hasPermission("rank.admin"))) {
-                return true;
-            }
-            if (args.length == 0) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Usage: &7/multiples reload"));
-                return true;
-            }
-            if (args[0].equalsIgnoreCase("reload")) {
-                plugin.getPluginLoader().disablePlugin(plugin);
-                plugin.getPluginLoader().enablePlugin(plugin);
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6&lMultiples &7reloading configuration..."));
-                return true;
-            }
+        if (args.length == 0) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Usage: &7/multiples reload"));
             return true;
         }
+
+        switch (label) {
+            case "multiples":
+                if (!(sender.hasPermission("rank.admin"))) {
+                    return true;
+                }
+                if (args[0].equalsIgnoreCase("reload")) {
+                    plugin.getPluginLoader().disablePlugin(plugin);
+                    plugin.getPluginLoader().enablePlugin(plugin);
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6&lMultiples &7reloading configuration..."));
+                    return true;
+                }
+                break;
+            case "icebox":
+                break;
+            default:
+                break;
+        }
+
         return false;
     }
 

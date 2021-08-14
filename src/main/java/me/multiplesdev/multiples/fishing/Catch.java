@@ -6,6 +6,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -95,10 +96,10 @@ public class Catch implements Listener {
             if (rdmRepair == 200) {
                 ItemStack inHand = e.getPlayer().getInventory().getItemInMainHand();
                 ItemMeta meta = inHand.getItemMeta();
-                if (inHand == null) { return; }
+                if (inHand.getType() != Material.FISHING_ROD) { return; }
                 if (meta instanceof Damageable) {
                     int currentDurability = ((Damageable) meta).getDamage();
-                    ((Damageable) meta).setDamage((short) inHand.getType().getMaxDurability() - (inHand.getType().getMaxDurability() + currentDurability));
+                    ((Damageable) meta).setDamage((short) inHand.getType().getMaxDurability() - (inHand.getType().getMaxDurability() + currentDurability + 1));
                     inHand.setItemMeta(meta);
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.translateAlternateColorCodes('&', "&6You were lucky and received a free repair!")));
                     player.playSound(loc, Sound.ITEM_BOTTLE_FILL_DRAGONBREATH, 1f, 0.7f);
@@ -107,7 +108,6 @@ public class Catch implements Listener {
         }
 
     }
-
 
     public void xpCheck(Player player, API playerLevelManager) {
         int level = playerLevelManager.getLevel();

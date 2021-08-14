@@ -2,6 +2,7 @@ package me.multiplesdev.multiples;
 
 import me.multiplesdev.multiples.commands.Commands;
 import me.multiplesdev.multiples.fishing.Catch;
+import me.multiplesdev.multiples.menus.Icebox;
 import me.multiplesdev.multiples.mining.Shovels;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -19,9 +20,6 @@ public final class Multiples extends JavaPlugin implements Listener {
     public HashMap<UUID, API> levelManagerHashMap;
     private Multiples plugin;
 
-
-
-
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -33,7 +31,6 @@ public final class Multiples extends JavaPlugin implements Listener {
         this.levelManagerHashMap = new HashMap<>();
         this.getConfig().options().copyDefaults(true);
         this.saveConfig();
-
         Objects.requireNonNull(this.getCommand("multiples")).setExecutor(new Commands());
     }
 
