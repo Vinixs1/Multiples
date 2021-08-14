@@ -28,6 +28,19 @@ public class Catch implements Listener {
         plugin = instance;
     }
 
+    public void xpCheck(Player player, API playerLevelManager) {
+        int level = playerLevelManager.getLevel();
+        int xpNeeded = plugin.getConfig().getInt("Levels." + level + ".xp");
+        int xp = playerLevelManager.getXp();
+        int nextLevel = (level + 1);
+
+        if (xp >= xpNeeded) {
+            playerLevelManager.setXp(0);
+            playerLevelManager.setLevel(nextLevel);
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.translateAlternateColorCodes('&', "&6&lLEVELUP &7You have reached &eFishing Level " + nextLevel + "&e!")));
+        }
+    }
+
     @EventHandler
     public void onFishEvent(PlayerFishEvent e) {
         if (e.getState() == PlayerFishEvent.State.CAUGHT_FISH) {
@@ -82,9 +95,9 @@ public class Catch implements Listener {
                         break;
                 }
             }
+            xpCheck(player, playerLevelManager);
             int num1 = getRandom(1, 9);
             int num2 = getRandom(1, 9);
-            xpCheck(player, playerLevelManager);
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &6Fishing Level: " + ChatColor.YELLOW + level + "/10"));
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &6Experience: " + ChatColor.YELLOW + xp + "/" + xpNeeded + " exp"));
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &6Weight: " + ChatColor.YELLOW + num1 + "." + num2 + " lbs"));
@@ -107,19 +120,6 @@ public class Catch implements Listener {
             }
         }
 
-    }
-
-    public void xpCheck(Player player, API playerLevelManager) {
-        int level = playerLevelManager.getLevel();
-        int xpNeeded = plugin.getConfig().getInt("Levels." + level + ".xp");
-        int xp = playerLevelManager.getXp();
-        int nextLevel = (level + 1);
-
-        if (xp >= xpNeeded) {
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.translateAlternateColorCodes('&', "&6&lLEVELUP &7You have reached &eFishing Level " + level + "&e!")));
-            playerLevelManager.setXp(0);
-            playerLevelManager.setLevel(nextLevel);
-        }
     }
 
     private int getRandom(int lower, int upper) {
