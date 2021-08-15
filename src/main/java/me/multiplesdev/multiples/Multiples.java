@@ -19,6 +19,7 @@ public final class Multiples extends JavaPlugin implements Listener {
 
     public HashMap<UUID, API> levelManagerHashMap;
     private Multiples plugin;
+    static Icebox iceboxplugin;
 
     @Override
     public void onEnable() {
@@ -32,6 +33,7 @@ public final class Multiples extends JavaPlugin implements Listener {
         this.getConfig().options().copyDefaults(true);
         this.saveConfig();
         Objects.requireNonNull(this.getCommand("multiples")).setExecutor(new Commands());
+        Objects.requireNonNull(this.getCommand("icebox")).setExecutor(new Commands());
     }
 
     @Override

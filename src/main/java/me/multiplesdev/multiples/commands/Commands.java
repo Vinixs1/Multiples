@@ -1,42 +1,59 @@
 package me.multiplesdev.multiples.commands;
 
 import me.multiplesdev.multiples.Multiples;
+import me.multiplesdev.multiples.menus.Icebox;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class Commands implements CommandExecutor {
 
     static Multiples plugin;
+    static Icebox iceboxplugin;
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (args.length == 0) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Usage: &7/multiples reload"));
+        if (!(sender instanceof Player) && !sender.hasPermission("rank.admin")) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6&lERROR &7No Permissions!"));
             return true;
         }
 
-        switch (label) {
-            case "multiples":
-                if (!(sender.hasPermission("rank.admin"))) {
-                    return true;
-                }
-                if (args[0].equalsIgnoreCase("reload")) {
-                    plugin.getPluginLoader().disablePlugin(plugin);
-                    plugin.getPluginLoader().enablePlugin(plugin);
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6&lMultiples &7reloading configuration..."));
-                    return true;
-                }
-                break;
-            case "icebox":
-                break;
-            default:
-                break;
+        if (!(sender instanceof Player)) {
+            return false;
         }
+
+        if (label.equalsIgnoreCase("multiples")) {
+            if (args.length >= 1) {
+                switch (args[0].toLowerCase()) {
+                    default:
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6&lERROR &7Unknown args"));
+                        break;
+                    case "reload":
+                        if (args.length > 1) {
+                            // TODO - add reset command
+                            break;
+                        } else {
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6&lMultiples &7reloading plugin..."));
+                            plugin.getPluginLoader().disablePlugin(plugin);
+                            plugin.getPluginLoader().enablePlugin(plugin);
+                            return true;
+                        }
+                    case "fishing":
+                        if (args.length < 3) {
+                            // TODO - add reset command
+                            break;
+                        }
+                }
+            }
+        } else {
+            if (label.equalsIgnoreCase("icebox")) {
+                Player player = (Player) sender;
+                iceboxplugin.openInventory(player);
+                return true;
+            }
+        }
+
 
         return false;
     }

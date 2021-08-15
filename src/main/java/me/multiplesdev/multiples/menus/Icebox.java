@@ -1,6 +1,4 @@
 package me.multiplesdev.multiples.menus;
-import me.multiplesdev.multiples.API;
-import me.multiplesdev.multiples.Multiples;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,18 +16,16 @@ import java.util.List;
 
 public class Icebox implements Listener {
 
-    private static Multiples plugin;
     private static Inventory INV;
 
-    public void register(Player p) {
-        API playerLevelManager = plugin.levelManagerHashMap.get(p.getUniqueId());
-        int level = playerLevelManager.getLevel();
+    public void register() {
 
-        Inventory inv = Bukkit.createInventory(null, 9, "Icebox (Fishing Lvl. " + level + ")");
-        List<String> lore = new ArrayList<String>();
+        Inventory inv = Bukkit.createInventory(null, 9, "Personal Icebox");
+        List<String> lore = new ArrayList<>();
 
         ItemStack item = new ItemStack(Material.COD);
         ItemMeta meta = item.getItemMeta();
+        assert meta != null;
         meta.setDisplayName(ChatColor.YELLOW  + "x0 Cod");
         lore.add(ChatColor.GRAY + "&7Worth: &e$0");
         lore.add(ChatColor.GRAY + " ");

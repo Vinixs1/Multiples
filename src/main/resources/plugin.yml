@@ -8,3 +8,5 @@ description: Main plugin for multiples
 commands:
   Multiples:
     description: Main command for the plugin
+  Icebox:
+    description: Personal storage for fishing drops
