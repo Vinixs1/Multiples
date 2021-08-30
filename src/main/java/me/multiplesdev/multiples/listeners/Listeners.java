@@ -1,5 +1,8 @@
 package me.multiplesdev.multiples.listeners;
 
+import me.multiplesdev.multiples.Multiples;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -9,9 +12,14 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.awt.*;
-import java.util.*;
+import java.util.Random;
 
 public class Listeners implements Listener {
+
+    static Multiples plugin;
+    public void BlockListeners(Multiples plugin) {
+        Listeners.plugin = plugin;
+    }
 
     @EventHandler
     public void blockBreak(BlockBreakEvent e) {
@@ -50,7 +58,9 @@ public class Listeners implements Listener {
 
     private void sandBreak(Player player, Block block, Location loc) {
         if (randomInt(1, 100) <= 10) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Found" + ChatColor.GOLD + randomInt(3, 23) + "&6tokens in the sand"));
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.translateAlternateColorCodes('&',
+                    " &6&oFound " + ChatColor.GOLD + ChatColor.ITALIC + randomInt(3, 23) + " &6&oTokens in the sand")));
+            player.playSound(loc, Sound.ENTITY_VILLAGER_YES, 1.0f, 2.0f);
         }
         block.setType(Material.SANDSTONE);
     }
