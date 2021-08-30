@@ -3,12 +3,12 @@ Main plugin exclusive to the Multiples server
 
 # Completed
   - Fish Leveling
-  - Plugin /Reload 
 
 # WIP
   - Add Fishing loot-table
   - Add Shoveling loot-table
   - Finish Shoveling system
+  - Admin commands
 
 # TODO
   - Plugin Config /Reload
