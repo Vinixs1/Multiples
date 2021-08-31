@@ -3,6 +3,7 @@ Main plugin exclusive to the Multiples server
 
 # Completed
   - Fish Leveling
+  - Shovel Enchants
 
 # WIP
   - Add Fishing loot-table
@@ -19,6 +20,6 @@ Main plugin exclusive to the Multiples server
   - Implement new mining system (java & new ores)
   - Implement mongoDB for player data
   - Implement Crates (Castle, Fisherman, Crystal, Neptune) 
-  - Implement Pickaxe/Shovel custom enchants enchants
+  - Implement Pickaxe custom enchants
   - Implement Pickaxe/Shovel/Sword rarities (Preset Enchants: Eff, Fort, Lure, ETC)
   - TBA
