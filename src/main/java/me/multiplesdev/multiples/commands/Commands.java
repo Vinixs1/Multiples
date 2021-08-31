@@ -1,6 +1,7 @@
 package me.multiplesdev.multiples.commands;
 
 import me.multiplesdev.multiples.Multiples;
+import me.multiplesdev.multiples.items.ItemManager;
 import me.multiplesdev.multiples.menus.Icebox;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -25,6 +26,7 @@ public class Commands implements CommandExecutor {
 
         if (label.equalsIgnoreCase("multiples")) {
             if (args.length >= 1) {
+                Player player = (Player) sender;
                 switch (args[0].toLowerCase()) {
                     default:
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6&lERROR &7Unknown args"));
@@ -44,6 +46,21 @@ public class Commands implements CommandExecutor {
                             // TODO - add reset command
                             break;
                         }
+                    case "basicshovel":
+                        player.getInventory().addItem(ItemManager.basicShovel);
+                        break;
+                    case "goodshovel":
+                        player.getInventory().addItem(ItemManager.goodShovel);
+                        break;
+                    case "epicshovel":
+                        player.getInventory().addItem(ItemManager.epicShovel);
+                        break;
+                    case "legendaryshovel":
+                        player.getInventory().addItem(ItemManager.legendaryShovel);
+                        break;
+                    case "mythicshovel":
+                        player.getInventory().addItem(ItemManager.mythicShovel);
+                        break;
                 }
             }
         } else {

@@ -2,6 +2,7 @@ package me.multiplesdev.multiples;
 
 import me.multiplesdev.multiples.commands.Commands;
 import me.multiplesdev.multiples.fishing.Catch;
+import me.multiplesdev.multiples.items.ItemManager;
 import me.multiplesdev.multiples.listeners.Listeners;
 import me.multiplesdev.multiples.menus.Icebox;
 import org.bukkit.ChatColor;
@@ -23,6 +24,7 @@ public final class Multiples extends JavaPlugin implements Listener {
     private Multiples plugin;
     static Icebox iceboxplugin;
 
+
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -35,6 +37,9 @@ public final class Multiples extends JavaPlugin implements Listener {
         this.saveConfig();
         Objects.requireNonNull(this.getCommand("multiples")).setExecutor(new Commands());
         Objects.requireNonNull(this.getCommand("icebox")).setExecutor(new Commands());
+
+        // Create Shovels
+        ItemManager.init();
 
         // Database Connection
 
