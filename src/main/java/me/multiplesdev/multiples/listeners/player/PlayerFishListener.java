@@ -1,4 +1,4 @@
-package me.multiplesdev.multiples.fishing;
+package me.multiplesdev.multiples.listeners.player;
 
 import me.multiplesdev.multiples.API;
 import me.multiplesdev.multiples.Multiples;
@@ -19,34 +19,48 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Random;
 
-public class Catch implements Listener {
+public class PlayerFishListener implements Listener {
 
     static Multiples plugin;
     private Object Damageable;
 
-    public Catch(Multiples instance) {
-        plugin = instance;
-    }
-
     public void xpCheck(Player player, Location loc, API playerLevelManager) {
         int level = playerLevelManager.getLevel();
-        int xpNeeded = plugin.getConfig().getInt("Levels." + level + ".xp");
-        int xp = playerLevelManager.getXp();
-        int nextLevel = (level + 1);
+        if (level == 0) {
+            int newLevel = (level + 1);
+            playerLevelManager.setLevel(1);
+            int xp = playerLevelManager.getXp();
+            int xpNeeded = plugin.getConfig().getInt("Levels." + newLevel + ".xp");
 
-        if (xp >= xpNeeded) {
-            playerLevelManager.setXp(0);
-            playerLevelManager.setLevel(nextLevel);
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.translateAlternateColorCodes('&', "&6&lLEVELUP &7You have reached &eFishing Level " + nextLevel + "&e!")));
+            int num1 = getRandom(1, 9);
+            int num2 = getRandom(1, 9);
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &6Fishing Level: " + ChatColor.YELLOW + newLevel + "/10"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &6Experience: " + ChatColor.YELLOW + xp + "/" + xpNeeded + " exp"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &6Weight: " + ChatColor.YELLOW + num1 + "." + num2 + " lbs"));
+            player.sendMessage("");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&oExchange drops with the &e&oFisherman"));
+            player.playSound(loc, Sound.ENTITY_PLAYER_LEVELUP, 1f, 2f);
+        } else {
+            int xpNeeded = plugin.getConfig().getInt("Levels." + level + ".xp");
+            int xp = playerLevelManager.getXp();
+            int nextLevel = (level + 1);
+
+            if (xp >= xpNeeded) {
+                playerLevelManager.setXp(0);
+                playerLevelManager.setLevel(nextLevel);
+
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.translateAlternateColorCodes('&', "&6&lLEVELUP &7You have reached &eFishing Level " + nextLevel + "&e!")));
+            }
+
+            int num1 = getRandom(1, 9);
+            int num2 = getRandom(1, 9);
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &6Fishing Level: " + ChatColor.YELLOW + level + "/10"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &6Experience: " + ChatColor.YELLOW + xp + "/" + xpNeeded + " exp"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &6Weight: " + ChatColor.YELLOW + num1 + "." + num2 + " lbs"));
+            player.sendMessage("");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&oExchange drops with the &e&oFisherman"));
+            player.playSound(loc, Sound.ENTITY_PLAYER_LEVELUP, 1f, 2f);
         }
-        int num1 = getRandom(1, 9);
-        int num2 = getRandom(1, 9);
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &6Fishing Level: " + ChatColor.YELLOW + level + "/10"));
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &6Experience: " + ChatColor.YELLOW + xp + "/" + xpNeeded + " exp"));
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &6Weight: " + ChatColor.YELLOW + num1 + "." + num2 + " lbs"));
-        player.sendMessage("");
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&oExchange drops with the &e&oFisherman"));
-        player.playSound(loc, Sound.ENTITY_PLAYER_LEVELUP, 1f, 2f);
     }
 
     @EventHandler
@@ -56,12 +70,11 @@ public class Catch implements Listener {
             Player player = e.getPlayer();
             Location loc = e.getPlayer().getLocation();
             API playerLevelManager = plugin.levelManagerHashMap.get(player.getUniqueId());
-            int xp = playerLevelManager.getXp();
             int level = playerLevelManager.getLevel();
-            int xpNeeded = plugin.getConfig().getInt("Levels." + level + ".xp");
+            int catchTotal = playerLevelManager.getCatchTotal();
 
             player.sendMessage("");
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6&l&nCatch Overview"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6&l&nCatch Overview &7(" + catchTotal + " &7Caught)"));
             player.sendMessage("");
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7You have caught &ex1 " + ChatColor.YELLOW + caught.getName()));
             player.sendMessage("");
@@ -105,8 +118,8 @@ public class Catch implements Listener {
             }
             xpCheck(player, loc, playerLevelManager);
 
-            int rdmRepair = getRandom(1, 200);
-            if (rdmRepair == 200) {
+            int rdmRepair = getRandom(1, 100);
+            if (rdmRepair == 100) {
                 ItemStack inHand = e.getPlayer().getInventory().getItemInMainHand();
                 ItemMeta meta = inHand.getItemMeta();
                 if (inHand.getType() != Material.FISHING_ROD) { return; }
@@ -126,7 +139,5 @@ public class Catch implements Listener {
         Random random = new Random();
         return random.nextInt((upper - lower) + 1) + lower;
     }
-
-
 
 }

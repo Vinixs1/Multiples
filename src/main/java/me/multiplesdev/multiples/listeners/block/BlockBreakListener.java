@@ -1,4 +1,4 @@
-package me.multiplesdev.multiples.listeners;
+package me.multiplesdev.multiples.listeners.block;
 
 import me.multiplesdev.multiples.Multiples;
 import me.multiplesdev.multiples.items.ItemManager;
@@ -15,20 +15,19 @@ import org.bukkit.inventory.ItemStack;
 import java.awt.*;
 import java.util.Random;
 
-public class Listeners implements Listener {
+public class BlockBreakListener implements Listener {
 
     static Multiples plugin;
-    public void BlockListeners(Multiples plugin) {
-        Listeners.plugin = plugin;
-    }
 
-    // Shovel Event
     @EventHandler
     public void blockBreak(BlockBreakEvent e) {
         if (e.getPlayer().getGameMode() == GameMode.CREATIVE || e.getPlayer().getGameMode() == GameMode.SPECTATOR)
             return;
         if (e.getBlock().getState() instanceof Container)
             return;
+        if (e.isCancelled()) {
+            return;
+        }
         if (e.getBlock().getType() != Material.SAND || e.getBlock().getType() != Material.SOUL_SAND) return;
         Player player = e.getPlayer();
         Block block = e.getBlock();
@@ -48,8 +47,8 @@ public class Listeners implements Listener {
 
                 // case SOUL_SAND:
 
-            default:
-                break;
+                default:
+                    break;
 
             }
         } else {
@@ -64,17 +63,17 @@ public class Listeners implements Listener {
         if (randomInt(1, 100) <= 10) {
 
             if (player.getInventory().getItemInMainHand().getItemMeta().equals(ItemManager.basicShovel.getItemMeta())) {
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.translateAlternateColorCodes('&',
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new net.md_5.bungee.api.chat.TextComponent(ChatColor.translateAlternateColorCodes('&',
                         " &6&oFound " + ChatColor.GOLD + ChatColor.ITALIC + randomInt(5, 23) + " &6&oTokens in the sand")));
             }
 
             if (player.getInventory().getItemInMainHand().getItemMeta().equals(ItemManager.goodShovel.getItemMeta())) {
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.translateAlternateColorCodes('&',
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new net.md_5.bungee.api.chat.TextComponent(ChatColor.translateAlternateColorCodes('&',
                         " &6&oFound " + ChatColor.GOLD + ChatColor.ITALIC + randomInt(16, 32) + " &6&oTokens in the sand")));
             }
 
             if (player.getInventory().getItemInMainHand().getItemMeta().equals(ItemManager.legendaryShovel.getItemMeta())) {
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.translateAlternateColorCodes('&',
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new net.md_5.bungee.api.chat.TextComponent(ChatColor.translateAlternateColorCodes('&',
                         " &6&oFound " + ChatColor.GOLD + ChatColor.ITALIC + randomInt(21, 42) + " &6&oTokens in the sand")));
             }
 
@@ -88,6 +87,15 @@ public class Listeners implements Listener {
 
         // TODO: Sand Cooldown
         block.setType(Material.SANDSTONE);
+
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            for (int i = 0; i < 10; i++) {
+
+            }
+
+
+        });
+
     }
 
     private static int randomInt(int min, int max) {
